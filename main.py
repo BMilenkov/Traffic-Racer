@@ -62,7 +62,7 @@ car_shop = {
 }
 
 global money, owned_cars, selected_car
-global player_x, player_y, player_speed, enemy_speed, score, enemy_last_spawn, enemy_spawn_delay
+global HighScore, player_x, player_y, player_speed, enemy_speed, score, enemy_last_spawn, enemy_spawn_delay
 
 road_width = WIDTH * 0.65
 grass_width = (WIDTH - road_width) / 2
@@ -91,8 +91,9 @@ def play_music(music_file, loop=True):
     pygame.mixer.music.load(music_file)
     pygame.mixer.music.play(-1 if loop else 0)
 
+
 def reset_game():
-    global player_x, player_y, player_speed, enemy_speed, score, enemy_last_spawn,enemy_spawn_delay
+    global player_x, player_y, player_speed, enemy_speed, score, enemy_last_spawn, enemy_spawn_delay
     score = 0
     player_x = WIDTH // 2 - player_width // 2
     player_y = HEIGHT - player_height - 10
@@ -100,6 +101,7 @@ def reset_game():
     enemy_speed = 5
     enemy_last_spawn = 0
     enemy_spawn_delay = 50
+
 
 def load_data():
     global money, owned_cars, selected_car, player_speed, max_speed, acceleration, brake_strength, player_car_image
@@ -116,7 +118,7 @@ def load_data():
 
 
 def save_data():
-    global money, owned_cars, selected_car, player_speed, max_speed, acceleration, brake_strength, player_car_image
+    global money, owned_cars, selected_car, player_speed, max_speed, acceleration, brake_strength, player_car_image, HighScore
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
             existing_data = json.load(f)
@@ -127,6 +129,7 @@ def save_data():
         previous_money_state = 0
 
     new_high_score = max(previous_high_score, score)
+    HighScore = new_high_score
     new_money_state = previous_money_state + score * 10
     data = {
         "high_score": new_high_score,
@@ -165,7 +168,7 @@ def display_info(score, speed):
 
 
 def game_over(enemies, a, b):
-    global score, player_speed, enemy_speed, player_y,player_x
+    global score, player_speed, enemy_speed, player_y, player_x
     save_data()
     for enemy in enemies:
         screen.blit(enemy[2], (enemy[0], enemy[1]))
@@ -174,7 +177,7 @@ def game_over(enemies, a, b):
     screen.blit(crash_image, (a - 10, b - 40))
 
     window_width = 400
-    window_height = 200
+    window_height = 230
     window_x = WIDTH // 2 - window_width // 2
     window_y = HEIGHT // 2 - window_height // 2 - 50
 
@@ -183,6 +186,10 @@ def game_over(enemies, a, b):
 
     game_over_text = MENU_FONT.render('GAME OVER!', True, (255, 0, 0))
     screen.blit(game_over_text, (window_x + window_width // 2 - game_over_text.get_width() // 2, window_y + 30))
+
+    screen.blit(FONT.render(f"Score: {score}", True, BLACK), (window_width // 2 - 10, window_height // 2 + 200))
+    screen.blit(FONT.render(f"High Score:  {HighScore}", True, BLACK), (window_width // 2 + 130, window_height // 2 + 200))
+
 
     restart_button_rect = pygame.draw.rect(screen, GRASS_GREEN,
                                            (window_width // 2 - 10, window_height // 2 + 250, 140, 60), border_radius=7)
