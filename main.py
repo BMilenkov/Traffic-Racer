@@ -42,9 +42,9 @@ lock2_image = pygame.image.load('images/icons/locked2.jpg')
 
 car_images = [
     pygame.transform.scale(pygame.image.load("images/vehicles/taxi.png"), (110, 180)),
-    pygame.transform.scale(pygame.image.load("images/vehicles/pickup_truck.png"), (110, 180)),
+    pygame.transform.scale(pygame.image.load("images/vehicles/pickup truck.png"), (110, 180)),
     pygame.transform.scale(pygame.image.load("images/vehicles/van.png"), (110, 180)),
-    pygame.transform.scale(pygame.image.load("images/vehicles/semi_trailer.png"), (110, 180)),
+    pygame.transform.scale(pygame.image.load("images/vehicles/truck.png"), (110, 180)),
     pygame.transform.scale(pygame.image.load("images/vehicles/car.png"), (110, 180))
 ]
 
@@ -53,12 +53,12 @@ car_shop = {
             "image": pygame.transform.scale(pygame.image.load("images/vehicles/car.png"), (110, 180))},
     "taxi": {"price": 2000, "speed": 110, "acceleration": 14, "power": 150,
              "image": pygame.transform.scale(pygame.image.load("images/vehicles/taxi.png"), (110, 180))},
-    "van": {"price": 4000, "speed": 90, "acceleration": 10, "power": 500,
+    "van": {"price": 9000, "speed": 90, "acceleration": 10, "power": 500,
             "image": pygame.transform.scale(pygame.image.load("images/vehicles/van.png"), (110, 180))},
     "truck": {"price": 50000, "speed": 100, "acceleration": 10, "power": 120,
-              "image": pygame.transform.scale(pygame.image.load("images/vehicles/semi_trailer.png"), (110, 180))},
+              "image": pygame.transform.scale(pygame.image.load("images/vehicles/truck.png"), (110, 180))},
     "pickup truck": {"price": 3000, "speed": 100, "acceleration": 10, "power": 120,
-                     "image": pygame.transform.scale(pygame.image.load("images/vehicles/pickup_truck.png"), (110, 180))}
+                     "image": pygame.transform.scale(pygame.image.load("images/vehicles/pickup truck.png"), (110, 180))}
 }
 
 global money, owned_cars, selected_car
@@ -187,8 +187,8 @@ def game_over(enemies, a, b):
     game_over_text = MENU_FONT.render('GAME OVER!', True, (255, 0, 0))
     screen.blit(game_over_text, (window_x + window_width // 2 - game_over_text.get_width() // 2, window_y + 30))
 
-    screen.blit(FONT.render(f"Score: {score}", True, BLACK), (window_width // 2 - 10, window_height // 2 + 200))
-    screen.blit(FONT.render(f"High Score:  {HighScore}", True, BLACK), (window_width // 2 + 130, window_height // 2 + 200))
+    screen.blit(DETAILS_FONT.render(f"Score: {score}", True, BLACK), (window_width // 2 - 10, window_height // 2 + 200))
+    screen.blit(DETAILS_FONT.render(f"High Score:  {HighScore}", True, BLACK), (window_width // 2 + 130, window_height // 2 + 200))
 
 
     restart_button_rect = pygame.draw.rect(screen, GRASS_GREEN,
@@ -355,7 +355,6 @@ def main_menu():
                 elif instructions_button_rect.collidepoint(mouse_pos):
                     running = False
                     instructions()
-
 
 def selectNewCar(current_selected_car):
     global selected_car
@@ -604,7 +603,7 @@ def game_loop():
 
             screen.blit(enemy[2], (enemy[0], enemy[1]))
 
-        draw_player(player_x, player_y)
+            draw_player(player_x, player_y)
 
         if player_x <= road_x or player_x + player_width >= road_x + road_width:
             explosion_sound.play()
@@ -617,7 +616,5 @@ def game_loop():
 
         clock.tick(60 + int(player_speed))
 
-
-# Run the game
 if __name__ == "__main__":
     main_menu()
