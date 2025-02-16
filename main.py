@@ -3,6 +3,7 @@ import random
 import sys
 import json
 import os
+import time
 
 pygame.init()
 pygame.mixer.init()
@@ -188,8 +189,8 @@ def game_over(enemies, a, b):
     screen.blit(game_over_text, (window_x + window_width // 2 - game_over_text.get_width() // 2, window_y + 30))
 
     screen.blit(DETAILS_FONT.render(f"Score: {score}", True, BLACK), (window_width // 2 - 10, window_height // 2 + 200))
-    screen.blit(DETAILS_FONT.render(f"High Score:  {HighScore}", True, BLACK), (window_width // 2 + 130, window_height // 2 + 200))
-
+    screen.blit(DETAILS_FONT.render(f"High Score:  {HighScore}", True, BLACK),
+                (window_width // 2 + 130, window_height // 2 + 200))
 
     restart_button_rect = pygame.draw.rect(screen, GRASS_GREEN,
                                            (window_width // 2 - 10, window_height // 2 + 250, 140, 60), border_radius=7)
@@ -355,6 +356,7 @@ def main_menu():
                 elif instructions_button_rect.collidepoint(mouse_pos):
                     running = False
                     instructions()
+
 
 def selectNewCar(current_selected_car):
     global selected_car
@@ -539,9 +541,13 @@ def shop_menu():
 
 def game_loop():
     global player_x, player_y, player_speed, score, enemy_speed, enemy_last_spawn, money
+
     clock = pygame.time.Clock()
     play_music(music2)
+
     enemies = []
+    last_input_time = time.time()
+
     while True:
         screen.fill(BLACK)
         draw_road()
@@ -550,6 +556,12 @@ def game_loop():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                last_input_time = time.time()
+
+        if time.time() - last_input_time > 5:
+            pygame.mixer.music.stop()
+            game_over(enemies, player_x, player_y)
 
         keys = pygame.key.get_pressed()
 
@@ -613,8 +625,8 @@ def game_loop():
         display_info(score, player_speed)
 
         pygame.display.update()
-
         clock.tick(60 + int(player_speed))
+
 
 if __name__ == "__main__":
     main_menu()
