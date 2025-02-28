@@ -35,4 +35,13 @@ Traffic Racer is an arcade-style endless racing game developed using **Pygame**.
 - The game speeds up over time, increasing difficulty.
 - Avoid crashing into traffic to keep your run going!
 
+## Gameplay Video 🎮
+
+Watch the gameplay video to see Traffic Racer in action:  
+
+[![Watch the video](https://img.youtube.com/vi/vajmV7dvYxA/0.jpg)](https://www.youtube.com/watch?v=vajmV7dvYxA)
+
+Click the image above or [watch it here](https://www.youtube.com/watch?v=vajmV7dvYxA).
+
+
 
